@@ -1,10 +1,17 @@
 import { Pool, PoolClient } from "pg";
-import { DbSession, QueryResult, SessionManager } from "../../domain/repositories/db-session";
+import {
+  DbSession,
+  QueryResult,
+  SessionManager,
+} from "../../domain/repositories/db-session";
 
 class PgDbSession implements DbSession {
   constructor(private readonly client: PoolClient) {}
 
-  async query<T extends Record<string, any>>(sql: string, params: unknown[] = []): Promise<QueryResult<T>> {
+  async query<T extends Record<string, any>>(
+    sql: string,
+    params: unknown[] = [],
+  ): Promise<QueryResult<T>> {
     const result = await this.client.query<T>(sql, params);
     return { rows: result.rows };
   }
@@ -13,12 +20,17 @@ class PgDbSession implements DbSession {
 export class PgSessionManager implements SessionManager {
   constructor(private readonly pool: Pool) {}
 
-  async withUserSession<T>(userId: number, work: (session: DbSession) => Promise<T>): Promise<T> {
+  async withUserSession<T>(
+    userId: number,
+    work: (session: DbSession) => Promise<T>,
+  ): Promise<T> {
     const client = await this.pool.connect();
 
     try {
       await client.query("BEGIN");
-      await client.query("SET LOCAL app.current_user_id = $1", [String(userId)]);
+      await client.query("SELECT set_config('app.current_user_id', $1, true)", [
+        String(userId),
+      ]);
 
       const session = new PgDbSession(client);
       const result = await work(session);
