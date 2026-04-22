@@ -34,8 +34,8 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 5432
-      DB_USER: ${APP_DB_USER}
-      DB_PASSWORD: ${APP_DB_PASSWORD}
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
       DB_NAME: ${DB_NAME}
       APP_CURRENT_USER_ID: ${APP_CURRENT_USER_ID}
       APP_PORT: ${APP_PORT:-3000}

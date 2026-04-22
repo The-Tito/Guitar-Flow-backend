@@ -4,10 +4,9 @@
   "description": "Guitar Flow backend with hexagonal architecture",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc",
     "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit"
+    "dev": "ts-node-dev --respawn src/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

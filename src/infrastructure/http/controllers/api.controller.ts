@@ -32,7 +32,7 @@ export class ApiController {
     private readonly removeFavoriteUseCase: RemoveFavoriteUseCase
   ) {}
 
-  async health(_req: Request, res: Response): Promise<void> {
+  health(_req: Request, res: Response): void {
     res.json({ status: "ok" });
   }
 

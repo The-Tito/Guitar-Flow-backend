@@ -4,7 +4,7 @@ import { env } from "../../shared/config/env";
 export const pgPool = new Pool({
   host: env.DB_HOST,
   port: env.DB_PORT,
-  user: env.DB_USER,
-  password: env.DB_PASSWORD,
+  user: env.APP_DB_USER,
+  password: env.APP_DB_PASSWORD,
   database: env.DB_NAME
 });
