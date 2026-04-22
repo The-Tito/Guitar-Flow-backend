@@ -6,5 +6,8 @@ export const pgPool = new Pool({
   port: env.DB_PORT,
   user: env.APP_DB_USER,
   password: env.APP_DB_PASSWORD,
-  database: env.DB_NAME
+  database: env.DB_NAME,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
