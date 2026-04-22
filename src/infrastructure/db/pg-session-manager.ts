@@ -4,7 +4,7 @@ import { DbSession, QueryResult, SessionManager } from "../../domain/repositorie
 class PgDbSession implements DbSession {
   constructor(private readonly client: PoolClient) {}
 
-  async query<T>(sql: string, params: unknown[] = []): Promise<QueryResult<T>> {
+  async query<T extends Record<string, any>>(sql: string, params: unknown[] = []): Promise<QueryResult<T>> {
     const result = await this.client.query<T>(sql, params);
     return { rows: result.rows };
   }

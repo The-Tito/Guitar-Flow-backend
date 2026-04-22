@@ -5,7 +5,7 @@ import { ApiController } from "../controllers/api.controller";
 export function buildApiRoutes(controller: ApiController): Router {
   const router = Router();
 
-  router.get("/health", asyncHandler((req, res) => controller.health(req, res)));
+  router.get("/health", asyncHandler(async (req, res) => controller.health(req, res)));
 
   router.get("/api/keys", asyncHandler((req, res) => controller.listKeys(req, res)));
   router.get("/api/keys/:keyId/chords", asyncHandler((req, res) => controller.listChordsByKey(req, res)));

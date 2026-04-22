@@ -53,9 +53,9 @@ export class ApiController {
   }
 
   async createProgression(req: Request, res: Response): Promise<void> {
-    const payload = createProgressionSchema.parse(req.body);
+    const { workTitle, baseKeyId, chordIds } = createProgressionSchema.parse(req.body);
 
-    await this.createProgressionUseCase.execute(req.currentUserId!, payload);
+    await this.createProgressionUseCase.execute(req.currentUserId!, { workTitle, baseKeyId, chordIds });
     res.status(201).json({ message: "Progression created" });
   }
 

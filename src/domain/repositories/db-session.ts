@@ -3,7 +3,7 @@ export interface QueryResult<T> {
 }
 
 export interface DbSession {
-  query<T>(sql: string, params?: unknown[]): Promise<QueryResult<T>>;
+  query<T extends Record<string, any>>(sql: string, params?: unknown[]): Promise<QueryResult<T>>;
 }
 
 export interface SessionManager {
