@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { UserRepository } from "../../domain/repositories/user-repository";
 import { AppError } from "../../shared/errors/app-error";
 import { signToken } from "../../shared/utils/jwt";
