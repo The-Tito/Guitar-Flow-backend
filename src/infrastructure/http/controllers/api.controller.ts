@@ -8,6 +8,8 @@ import { ListProgressionsUseCase } from "../../../application/use-cases/list-pro
 import { RemoveFavoriteUseCase } from "../../../application/use-cases/remove-favorite.use-case";
 import { TransposeProgressionUseCase } from "../../../application/use-cases/transpose-progression.use-case";
 
+const pathIdSchema = z.coerce.number().int().positive();
+
 const createProgressionSchema = z.object({
   workTitle: z.string().min(1),
   baseKeyId: z.number().int().positive(),
@@ -40,7 +42,7 @@ export class ApiController {
   }
 
   async listChordsByKey(req: Request, res: Response): Promise<void> {
-    const keyId = Number(req.params.keyId);
+    const keyId = pathIdSchema.parse(req.params.keyId);
     const data = await this.listChordsByKeyUseCase.execute(req.currentUserId!, keyId);
     res.json(data);
   }
@@ -58,7 +60,7 @@ export class ApiController {
   }
 
   async transposeProgression(req: Request, res: Response): Promise<void> {
-    const progressionId = Number(req.params.progressionId);
+    const progressionId = pathIdSchema.parse(req.params.progressionId);
     const payload = transposeSchema.parse(req.body);
 
     const newProgressionId = await this.transposeProgressionUseCase.execute(req.currentUserId!, {
@@ -71,14 +73,14 @@ export class ApiController {
   }
 
   async addFavorite(req: Request, res: Response): Promise<void> {
-    const progressionId = Number(req.params.progressionId);
+    const progressionId = pathIdSchema.parse(req.params.progressionId);
 
     await this.addFavoriteUseCase.execute(req.currentUserId!, progressionId);
     res.status(201).json({ message: "Favorite added" });
   }
 
   async removeFavorite(req: Request, res: Response): Promise<void> {
-    const progressionId = Number(req.params.progressionId);
+    const progressionId = pathIdSchema.parse(req.params.progressionId);
 
     await this.removeFavoriteUseCase.execute(req.currentUserId!, progressionId);
     res.status(204).send();
