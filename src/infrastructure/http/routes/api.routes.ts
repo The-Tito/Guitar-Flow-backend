@@ -1,11 +1,14 @@
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 import { asyncHandler } from "../../../shared/utils/async-handler";
 import { ApiController } from "../controllers/api.controller";
 
-export function buildApiRoutes(controller: ApiController): Router {
+export function buildApiRoutes(controller: ApiController, authMiddleware: RequestHandler): Router {
   const router = Router();
 
   router.get("/health", asyncHandler(async (req, res) => controller.health(req, res)));
+
+  // Todas las rutas a partir de aquí requieren JWT válido
+  router.use(authMiddleware);
 
   router.get("/api/keys", asyncHandler((req, res) => controller.listKeys(req, res)));
   router.get("/api/keys/:keyId/chords", asyncHandler((req, res) => controller.listChordsByKey(req, res)));

@@ -8,9 +8,10 @@ const envSchema = z.object({
   APP_DB_PASSWORD: z.string().min(1),
   DB_NAME: z.string().min(1),
   DB_PORT: z.coerce.number().int().positive(),
-  APP_CURRENT_USER_ID: z.coerce.number().int().positive(),
   DB_HOST: z.string().optional().default("localhost"),
-  APP_PORT: z.coerce.number().int().positive().optional().default(3000)
+  APP_PORT: z.coerce.number().int().positive().optional().default(3000),
+  JWT_SECRET: z.string().min(32, "JWT_SECRET debe tener al menos 32 caracteres"),
+  JWT_EXPIRES_IN: z.string().default("7d")
 });
 
 export const env = envSchema.parse(process.env);
